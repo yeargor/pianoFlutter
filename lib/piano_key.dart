@@ -3,44 +3,53 @@ import 'audio_player_pool.dart';
 
 enum KeyColor { WHITE, BLACK }
 
-class PianoKey extends StatefulWidget {
-  final bool isWhiteKey;
+class PianoKey extends StatelessWidget {
+  final KeyColor color;
+  final double width;
   final String note;
   final AudioPlayerPool audioPlayerPool;
   final Function(String notePath) onKeyPressed;
 
-  const PianoKey({
+  const PianoKey.white({
     super.key,
-    required this.isWhiteKey,
+    required this.width,
     required this.note,
     required this.audioPlayerPool,
     required this.onKeyPressed,
-  });
+  }) : color = KeyColor.WHITE;
 
-  @override
-  _PianoKeyState createState() => _PianoKeyState();
-}
+  const PianoKey.black({
+    super.key,
+    required this.width,
+    required this.note,
+    required this.audioPlayerPool,
+    required this.onKeyPressed,
+  }) : color = KeyColor.BLACK;
 
-class _PianoKeyState extends State<PianoKey> {
   @override
   Widget build(BuildContext context) {
+    Future<void> handleTapDown() async {
+      final notePath = "notes/$note.wav";
+      final player = audioPlayerPool.getAvailablePlayer(notePath); // Получаем плеер
+      await audioPlayerPool.play(notePath, player); // Передаём плеер в метод play
+      onKeyPressed(notePath);
+    }
+
+    Future<void> handleTapUp() async {
+      final notePath = "notes/$note.wav";
+      final player = audioPlayerPool.getAvailablePlayer(notePath); // Получаем тот же плеер
+      await audioPlayerPool.stopWithFadeOut(player); // Передаём плеер в метод stopWithFadeOut
+    }
+
     return GestureDetector(
-      onTap: () {
-        final notePath = "notes/${widget.note}.wav";
-        widget.audioPlayerPool.play(notePath);
-        widget.onKeyPressed(notePath);
-      },
+      onTapDown: (_) => handleTapDown(),
+      onTapUp: (_) => handleTapUp(),
       child: Container(
-        width: 50,
-        height: widget.isWhiteKey ? 150 : 100,
-        color: widget.isWhiteKey ? Colors.white : Colors.black,
-        margin: const EdgeInsets.symmetric(horizontal: 2),
-        alignment: Alignment.bottomCenter,
-        child: Text(
-          widget.note,
-          style: TextStyle(
-            color: widget.isWhiteKey ? Colors.black : Colors.white,
-          ),
+        width: width,
+        decoration: BoxDecoration(
+          color: color == KeyColor.WHITE ? Colors.white : Colors.black,
+          border: Border.all(color: Colors.black, width: 2),
+          borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
         ),
       ),
     );

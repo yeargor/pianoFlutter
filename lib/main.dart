@@ -155,105 +155,228 @@ class _PianoScreenState extends State<PianoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Compact Piano')),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: toggleRecording,
-                child: Text(isRecording ? "Остановить запись" : "Начать запись"),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: exportRecording,
-                child: const Text("Экспортировать запись"),
-              ),
-            ],
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+      final whiteKeySize = constraints.maxWidth / 7;
+      final blackKeySize = whiteKeySize / 2;
+
+      return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Stack(
+          children: [
+            _buildWhiteKeys(whiteKeySize, audioPlayerPool, recordNote),
+            _buildBlackKeys(constraints.maxHeight, blackKeySize, whiteKeySize, audioPlayerPool, recordNote),
+           ],
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'A',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: false,
-                  note: 'A#',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'B',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'C',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: false,
-                  note: 'C#',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'D',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: false,
-                  note: 'D#',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'E',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'F',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: false,
-                  note: 'F#',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: true,
-                  note: 'G',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-                PianoKey(
-                  isWhiteKey: false,
-                  note: 'G#',
-                  audioPlayerPool: audioPlayerPool,
-                  onKeyPressed: (notePath) => recordNote(notePath),
-                ),
-              ],
-            ),
+        );
+      },
+    );
+  }
+  
+  _buildWhiteKeys(double whiteKeySize, AudioPlayerPool audioPlayerPool, Function(String notePath) recordNote) {
+    return Row(
+      children: [
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'C',  // Adjusted note
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'D',
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'E',
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'F',
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'G',
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'A',
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+        PianoKey.white(
+          width: whiteKeySize,
+          note: 'B',
+          audioPlayerPool: audioPlayerPool,
+          onKeyPressed: (notePath) => recordNote(notePath),
+        ),
+      ],
+    );
+  }
+
+  _buildBlackKeys(double pianoHeight, double blackKeySize, double whiteKeySize, AudioPlayerPool audioPlayerPool, Function(String notePath) recordNote) {
+    return SizedBox(
+      height: pianoHeight * 0.55,
+      child: Row(
+        children: [
+          SizedBox(
+            width: whiteKeySize - blackKeySize / 2,
+          ),
+          PianoKey.black(
+            width: blackKeySize,
+            note: 'C#',
+            audioPlayerPool: audioPlayerPool,
+            onKeyPressed: (notePath) => recordNote(notePath),
+          ),
+          SizedBox(
+            width: whiteKeySize - blackKeySize,
+          ),
+          PianoKey.black(
+            width: blackKeySize,
+            note: 'D#',
+            audioPlayerPool: audioPlayerPool,
+            onKeyPressed: (notePath) => recordNote(notePath),
+          ),
+          SizedBox(
+            width: whiteKeySize,
+          ),
+          SizedBox(
+            width: whiteKeySize - blackKeySize,
+          ),
+          PianoKey.black(
+            width: blackKeySize,
+            note: 'F#',
+            audioPlayerPool: audioPlayerPool,
+            onKeyPressed: (notePath) => recordNote(notePath),
+          ),
+          SizedBox(
+            width: whiteKeySize - blackKeySize,
+          ),
+          PianoKey.black(
+            width: blackKeySize,
+            note: 'G#',
+            audioPlayerPool: audioPlayerPool,
+            onKeyPressed: (notePath) => recordNote(notePath),
+          ),
+          SizedBox(
+            width: whiteKeySize - blackKeySize,
+          ),
+          PianoKey.black(
+            width: blackKeySize,
+            note: 'A#',
+            audioPlayerPool: audioPlayerPool,
+            onKeyPressed: (notePath) => recordNote(notePath),
           ),
         ],
       ),
     );
   }
+
+
+
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     ElevatedButton(
+          //       onPressed: toggleRecording,
+          //       child: Text(isRecording ? "Остановить запись" : "Начать запись"),
+          //     ),
+          //     const SizedBox(width: 10),
+          //     ElevatedButton(
+          //       onPressed: exportRecording,
+          //       child: const Text("Экспортировать запись"),
+          //     ),
+          //   ],
+          // ),
+          // Expanded(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'A',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: false,
+          //         note: 'A#',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'B',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'C',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: false,
+          //         note: 'C#',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'D',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: false,
+          //         note: 'D#',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'E',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'F',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: false,
+          //         note: 'F#',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: true,
+          //         note: 'G',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //       PianoKey(
+          //         isWhiteKey: false,
+          //         note: 'G#',
+          //         audioPlayerPool: audioPlayerPool,
+          //         onKeyPressed: (notePath) => recordNote(notePath),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+    //     ],
+    //   ),
+    // );
+  // }
 }
