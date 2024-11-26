@@ -31,14 +31,15 @@ class PianoKey extends StatelessWidget {
     Future<void> handleTapDown() async {
       final notePath = "notes/$note.wav";
       final player = audioPlayerPool.getAvailablePlayer(notePath); // Получаем плеер
+
       await audioPlayerPool.play(notePath, player); // Передаём плеер в метод play
       onKeyPressed(notePath);
     }
 
     Future<void> handleTapUp() async {
       final notePath = "notes/$note.wav";
-      final player = audioPlayerPool.getAvailablePlayer(notePath); // Получаем тот же плеер
-      await audioPlayerPool.stopWithFadeOut(player); // Передаём плеер в метод stopWithFadeOut
+      // final player = audioPlayerPool.getAvailablePlayer(notePath); // Получаем тот же плеер
+      await audioPlayerPool.stopWithFadeOut(notePath); // Передаём плеер в метод stopWithFadeOut
     }
 
     return GestureDetector(

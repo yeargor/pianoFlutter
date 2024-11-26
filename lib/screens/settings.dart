@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             leading: const Icon(Icons.save),
             title: const Text("Экспортировать запись"),
             onTap: () {
-              widget.recorder.exportRecording();
+              //widget.recorder.exportRecording();
             },
           ),
         ],
