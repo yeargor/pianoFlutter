@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PianoRecorder {
-  bool isRecording = false;
+  static bool isRecording = false;
   List<String> recordedNotes = [];
   final String outputPath = "\\storage\\emulated\\0\\Download\\recorded_piano.wav";
 

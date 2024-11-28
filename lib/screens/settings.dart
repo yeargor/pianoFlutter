@@ -19,8 +19,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ListTile(
-            leading: Icon(widget.recorder.isRecording ? Icons.stop : Icons.fiber_manual_record),
-            title: Text(widget.recorder.isRecording ? "Остановить запись" : "Начать запись"),
+            leading: Icon(PianoRecorder.isRecording ? Icons.stop : Icons.fiber_manual_record),
+            title: Text(PianoRecorder.isRecording ? "Остановить запись" : "Начать запись"),
             onTap: () {
               setState(() {
                 widget.recorder.toggleRecording(); // Используем widget для доступа к recorder
@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             leading: const Icon(Icons.save),
             title: const Text("Экспортировать запись"),
             onTap: () {
-              //widget.recorder.exportRecording();
+              widget.recorder.exportRecording();
             },
           ),
         ],

@@ -1,9 +1,9 @@
 class RecordedNoteStorage {
-  final List<RecordedNote> _recordedNotes = [];
+  static final List<RecordedNote> _recordedNotes = [];
 
-  List<RecordedNote> get recordedNotes => _recordedNotes;
+  static List<RecordedNote> get recordedNotes => _recordedNotes;
 
-  void addNote(RecordedNote note) {
+  static void addNote(RecordedNote note) {
     _recordedNotes.add(note);
   }
 

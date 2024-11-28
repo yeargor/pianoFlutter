@@ -1,12 +1,12 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 import 'package:compact_piano/screens/classes/note_recorded.dart';
+import 'package:compact_piano/screens/classes/piano_recorder.dart';
 
 class AudioPlayerPool {
   //final List<AudioPlayer> _players = [];
   final Map<AudioPlayer, bool> _stopFadeOutFlags = {};
   final Map<String, AudioPlayer> _noteToPlayer = {};
-  final RecordedNoteStorage storage = RecordedNoteStorage();
   
   // Возвращает доступный плеер или создаёт новый
   AudioPlayer getAvailablePlayer(String filePath) {
@@ -28,11 +28,12 @@ class AudioPlayerPool {
     await player.setVolume(1.0);
     await player.play(AssetSource(filePath));
 
-    RecordedNote note = RecordedNote.empty();
-    note.setFilePath(filePath);
-    note.setTimeStarted(DateTime.now().millisecondsSinceEpoch);
-    storage.addNote(note);
-
+    if(PianoRecorder.isRecording){
+      RecordedNote note = RecordedNote.empty();
+      note.setFilePath(filePath);
+      note.setTimeStarted(DateTime.now().millisecondsSinceEpoch);
+      RecordedNoteStorage.addNote(note);
+    }
   }
 
   Future<void> stopWithFadeOut(String notePath) async {
@@ -55,14 +56,15 @@ class AudioPlayerPool {
       }
       await player.stop();
 
-      RecordedNote? foundNote = storage.recordedNotes.firstWhere(
-        (note) => note.filePath == notePath && note.timeEnded == 0,
-        orElse: () => RecordedNote.empty(),
-      );
-      if (foundNote.filePath.isNotEmpty) {
-        foundNote.setTimeEnded(DateTime.now().millisecondsSinceEpoch);
+      if(PianoRecorder.isRecording){
+        RecordedNote? foundNote = RecordedNoteStorage.recordedNotes.firstWhere(
+          (note) => note.filePath == notePath && note.timeEnded == 0,
+          orElse: () => RecordedNote.empty(),
+        );
+        if (foundNote.filePath.isNotEmpty) {
+          foundNote.setTimeEnded(DateTime.now().millisecondsSinceEpoch);
+        }
       }
-
     } catch (e) {
       print("Ошибка при остановке: $e");
     } finally {
