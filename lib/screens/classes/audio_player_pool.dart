@@ -4,15 +4,18 @@ import 'package:compact_piano/screens/classes/note_recorded.dart';
 import 'package:compact_piano/screens/classes/piano_recorder.dart';
 
 class AudioPlayerPool {
+  //final List<AudioPlayer> _players = [];
   final Map<AudioPlayer, bool> _stopFadeOutFlags = {};
   final Map<String, AudioPlayer> _noteToPlayer = {};
   
+  // Возвращает доступный плеер или создаёт новый
   AudioPlayer getAvailablePlayer(String filePath) {
     if (_noteToPlayer.containsKey(filePath)) {
       final player = _noteToPlayer[filePath]!;
       return player;
     }
     final newPlayer = AudioPlayer();
+    //_players.add(newPlayer);
     _noteToPlayer[filePath] = newPlayer;
     return newPlayer;
   }
