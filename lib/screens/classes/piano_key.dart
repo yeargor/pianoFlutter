@@ -8,14 +8,12 @@ class PianoKey extends StatelessWidget {
   final double width;
   final String note;
   final AudioPlayerPool audioPlayerPool;
-  final Function(String notePath) onKeyPressed;
 
   const PianoKey.white({
     super.key,
     required this.width,
     required this.note,
     required this.audioPlayerPool,
-    required this.onKeyPressed,
   }) : color = KeyColor.WHITE;
 
   const PianoKey.black({
@@ -23,7 +21,6 @@ class PianoKey extends StatelessWidget {
     required this.width,
     required this.note,
     required this.audioPlayerPool,
-    required this.onKeyPressed,
   }) : color = KeyColor.BLACK;
 
   @override
@@ -33,7 +30,6 @@ class PianoKey extends StatelessWidget {
       final player = audioPlayerPool.getAvailablePlayer(notePath); // Получаем плеер
 
       await audioPlayerPool.play(notePath, player); // Передаём плеер в метод play
-      onKeyPressed(notePath);
     }
 
     Future<void> handleTapUp() async {

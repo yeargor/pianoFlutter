@@ -17,6 +17,8 @@ class CompactPianoApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget{
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context){
     final recorder = PianoRecorder();
@@ -26,7 +28,7 @@ class MyHomePage extends StatelessWidget{
         scrollDirection: Axis.vertical,
         children: [
           PianoScreen(recorder: recorder),
-          SettingsScreen(recorder: recorder),
+          const SettingsScreen(),
         ],
       ),
     );

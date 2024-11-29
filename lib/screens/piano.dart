@@ -2,7 +2,6 @@ import 'package:compact_piano/screens/classes/audio_player_pool.dart';
 import 'package:compact_piano/screens/classes/piano_key.dart';
 import 'package:compact_piano/screens/classes/piano_recorder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class PianoScreen extends StatefulWidget {
   const PianoScreen({super.key, required this.recorder});
@@ -44,43 +43,36 @@ class _PianoScreenState extends State<PianoScreen> {
           width: whiteKeySize,
           note: 'C',  
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
         PianoKey.white(
           width: whiteKeySize,
           note: 'D',
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
         PianoKey.white(
           width: whiteKeySize,
           note: 'E',
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
         PianoKey.white(
           width: whiteKeySize,
           note: 'F',
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
         PianoKey.white(
           width: whiteKeySize,
           note: 'G',
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
         PianoKey.white(
           width: whiteKeySize,
           note: 'A',
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
         PianoKey.white(
           width: whiteKeySize,
           note: 'B',
           audioPlayerPool: audioPlayerPool,
-          onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
         ),
       ],
     );
@@ -98,7 +90,6 @@ class _PianoScreenState extends State<PianoScreen> {
             width: blackKeySize,
             note: 'C#',
             audioPlayerPool: audioPlayerPool,
-            onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
           ),
           SizedBox(
             width: whiteKeySize - blackKeySize,
@@ -107,7 +98,6 @@ class _PianoScreenState extends State<PianoScreen> {
             width: blackKeySize,
             note: 'D#',
             audioPlayerPool: audioPlayerPool,
-            onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
           ),
           SizedBox(
             width: whiteKeySize,
@@ -119,7 +109,6 @@ class _PianoScreenState extends State<PianoScreen> {
             width: blackKeySize,
             note: 'F#',
             audioPlayerPool: audioPlayerPool,
-            onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
           ),
           SizedBox(
             width: whiteKeySize - blackKeySize,
@@ -128,7 +117,6 @@ class _PianoScreenState extends State<PianoScreen> {
             width: blackKeySize,
             note: 'G#',
             audioPlayerPool: audioPlayerPool,
-            onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
           ),
           SizedBox(
             width: whiteKeySize - blackKeySize,
@@ -137,7 +125,6 @@ class _PianoScreenState extends State<PianoScreen> {
             width: blackKeySize,
             note: 'A#',
             audioPlayerPool: audioPlayerPool,
-            onKeyPressed: (notePath) => widget.recorder.recordNote(notePath),
           ),
         ],
       ),

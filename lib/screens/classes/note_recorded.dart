@@ -1,5 +1,7 @@
 class RecordedNoteStorage {
   static final List<RecordedNote> _recordedNotes = [];
+  static int? startTime;
+  static int? endTime;
 
   static List<RecordedNote> get recordedNotes => _recordedNotes;
 
@@ -7,8 +9,10 @@ class RecordedNoteStorage {
     _recordedNotes.add(note);
   }
 
-  void clear() {
+  static void clear() {
     _recordedNotes.clear();
+    startTime = null;
+    endTime = null;
   }
 }
 

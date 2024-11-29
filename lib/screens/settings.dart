@@ -2,9 +2,7 @@ import 'package:compact_piano/screens/classes/piano_recorder.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final PianoRecorder recorder;
-
-  const SettingsScreen({super.key, required this.recorder});
+  const SettingsScreen({super.key});
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -23,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: Text(PianoRecorder.isRecording ? "Остановить запись" : "Начать запись"),
             onTap: () {
               setState(() {
-                widget.recorder.toggleRecording(); // Используем widget для доступа к recorder
+                PianoRecorder.toggleRecording(); // Используем widget для доступа к recorder
               });
             },
           ),
@@ -31,7 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             leading: const Icon(Icons.save),
             title: const Text("Экспортировать запись"),
             onTap: () {
-              widget.recorder.exportRecording();
+              PianoRecorder.exportTrack();
             },
           ),
         ],
